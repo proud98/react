@@ -209,6 +209,34 @@
 			});
 		});
 		
+		//수정????
+		$("td.dbupdate").click(function(){
+			
+			var data=$("#updateform").serialize();
+			
+			
+			$.ajax({
+				
+				type:"post",
+				dataType:"html",
+				url:"updateproc.jsp",
+				data:data,
+				success:function(res){
+					
+					$("#uwriter").val(res.writer);
+					$("#ucontent").val(res.content);
+					$("#uavata").val(res.avata);
+					
+					list();
+					$("td.updateform").slideUp();
+					
+				}
+				
+			});
+			
+		});
+		
+		
 		
 	});
 	
