@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<board>
+		<data id="angel" name="주하랑">
+			<subject>Hello</subject>
+			<photo>../image/f10.png</photo>
+		</data>
+		
+		<data id="aaa" name="홍길동">
+			<subject>안녕</subject>
+			<photo>../image/f11.png</photo>
+		</data>
+		
+		<data id="bbb" name="강아지">
+			<subject>히히</subject>
+			<photo>../image/f12.png</photo>
+		</data>
+		
+		<data id="ccc" name="고양이">
+			<subject>랄라라</subject>
+			<photo>../image/f13.png</photo>
+		</data>
+		
+		<data id="ddd" name="최보현">
+			<subject>후후</subject>
+			<photo>../image/f14.png</photo>
+		</data>
+	</board>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+href="https://fonts.googleapis.com/css2?family=Anton&family=Edu+VIC+WA+NT+Beginner:wght@600&family=Gamja+Flower&family=Single+Day&family=Jua&family=Nanum+Pen+Script&display=swap"
+rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+</head>
+<body>
+	<form id="frm">
+		<table class="table table-bordered" style="width: 400px;">
+			<tr>
+			<th width="100" bgcolor="lightyellow">제품코드</th>
+				<td>
+				<input type="text" name="code" class="form-control" style="width: 100px">
+				</td>
+			</tr>
+			
+			<tr>
+			<th width="100" bgcolor="lightyellow">상품명</th>
+				<td>
+				<input type="text" name="sang" class="form-control" style="width: 100px">
+				</td>
+			</tr>
+			
+			<tr>
+			<th width="100" bgcolor="lightyellow">가격</th>
+				<td>
+				<input type="text" name="price" class="form-control" style="width: 100px">
+				</td>
+			</tr>
+			
+			<tr>
+			<th width="100" bgcolor="lightyellow">색상</th>
+				<td>
+				<input type="radio" name="color" value="yellow">yellow
+				<input type="radio" name="color" value="orange">orange
+				<input type="radio" name="color" value="blue">blue
+				<input type="radio" name="color" value="pink">pink
+				<input type="radio" name="color" value="green" checked="checked">green
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" align="center">
+				<button type="button" id="btn" class="btn btn-success">데이터 백엔드로 보내기</button>
+				</td>
+			</tr>
+		
+		</table>
+	
+	</form>
+	
+	
+	<br>
+	<div class="alert alert-success" id="show"></div>
+	
+	<script type="text/javascript">
+	$("#btn").click(function(){
+		
+		//폼태그의 값을 통채로 읽어오기
+		var data=$("#frm").serialize();
+		//alert(data);
+		
+		$.ajax({
+			
+			type:"get",
+			url:"ex2_read.jsp",
+			dataType:"json",
+			data:data, //정의 내려진 data
+			success:function(res){
+				
+				var s="코드: "+res.code+"<br>";
+				s+="상품명: "+res.sang+"<br>";
+				s+="가격: "+res.price+"<br>";
+				s+="색상: "+res.color+"<br>";
+				
+				$("#show").html(s);
+			}
+		});
+	});
+	
+	</script>
+</body>
+</html>

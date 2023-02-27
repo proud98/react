@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<data>
+	
+		<person no="1">
+			<name>주하랑</name>
+			<addr>성남</addr>
+		</person>
+		
+		<person no="2">
+			<name>강아지</name>
+			<addr>서울</addr>
+		</person>
+		
+		<person no="3">
+			<name>고양이</name>
+			<addr>인천</addr>
+		</person>
+		
+	</data>
