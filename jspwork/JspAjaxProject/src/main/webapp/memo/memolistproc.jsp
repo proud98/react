@@ -33,7 +33,7 @@
  		ob.put("avata", dto.getAvata());
  		ob.put("writeday", sdf.format(dto.getWriteday()));
  		
- 		//arr에 추가하기
+ 		//arr에 꾸러미에 추가하기
  		arr.add(ob);
  	}
  	%>

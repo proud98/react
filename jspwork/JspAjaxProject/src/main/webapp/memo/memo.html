@@ -50,13 +50,32 @@
 		padding: 20px 20px;
 	}
 	
-	img.select{
-		border: 2px solid pink;
-	}
+	 img.select{
+     border: 2px solid red;
+  }
 	
 	img.avata{
 		cursor: pointer;
 	}
+	
+	span.writeday{
+		float: right;
+		color: #bbb;
+	}
+	
+	span.writer{
+		font-weight: bold;
+	}
+	
+	span.mod{
+		cursor: pointer;
+	}
+	
+	span.del{
+		cursor: pointer;
+	}
+	
+	
 	</style>
 	
 	<script type="text/javascript">
@@ -64,6 +83,133 @@
 		
 		//처음 로딩시 목록 출력하기
 		list();
+		
+		//일단 첫 화면은 다 hide 숨겨두고
+		$("div.addform").hide();
+		$("div.updateform").hide();
+		
+		//추가버튼(btnadd) 나오면 addform 나오고 updateform은 안나오게
+		$("#btnadd").click(function(){
+			$("div.updateform").hide();
+			$("div.addform").slideToggle('fast');
+		});
+		
+		//아바타 2번 인덱스에 select 클래스 추가하기 
+		$("img.avata").eq(2).addClass("select");
+		//아바타 2번 src값을 얻어서 input 태그에 넣어주기
+		$("#avata").val($("img.avata").eq(2).attr("src"));
+		
+		//아바타 선택시 값 변경
+		$("img.avata").click(function(){
+			$(this).siblings().removeClass("select"); //선택한 것 외의 형제값들으 클래스를 지워주고
+			$(this).addClass("select"); //선택한 것은 클래스 추가
+			$("#avata").val($(this).attr("src")); //아바타의 벨류값 지정
+		});
+		
+		//수정 아바타 선택시 값 변경
+		$("img.uavata").click(function(){
+			$(this).siblings().removeClass("select"); //선택한 것 외의 형제값들으 클래스를 지워주고
+			$(this).addClass("select"); //선택한 것은 클래스 추가
+			$("#uavata").val($(this).attr("src")); //아바타의 벨류값 지정
+		});
+		
+		//저장(insert)
+		$("td.dbsave").click(function(){
+			
+			var data=$("#addform").serialize(); //addform안에 있는 name값을 가져와서 data로 씀
+			//alert(data);
+			
+			$.ajax({
+				
+				type:"post",
+				dataType:"html", //리턴 받을 값이 없는 경우(db에 저장만 할 때) 그냥 html 이라고 쓰면 됨
+				url:"insertproc.jsp",
+				data:data,
+				success:function(res){
+					
+					//성공 했을 때 목록을 다시 출력
+					list();
+					
+					//입력값 지우기
+					$("#writer").val(" ");
+					$("#content").val(" ");
+					
+					//선택 아바타 클래스 제거 
+					$("img.avata").removeClass("select");
+					//아바타 2번 인덱스에 select 클래스 추가하기 
+					$("img.avata").eq(2).addClass("select");
+					//아바타 2번 src값을 얻어서 input 태그에 넣어주기
+					$("#avata").val($("img.avata").eq(2).attr("src"));
+				}
+				
+			});
+			
+		});
+		
+		//삭제(on 이벤트): 향후에 발생되는 것에 이벤트 주는 것 
+		//span.del에 click 이벤트를 물려줌 
+		$(document).on("click","span.del",function(){
+			
+			var num=$(this).attr("num"); //this는 span.del을 말함
+			//alert(num);
+			
+			$.ajax({
+				
+				type:"get",
+				dataType:"html",
+				url:"deleteproc.jsp",
+				data:{"num":num}, //넘버값으로 데이터 넘겨주기
+				success:function(){
+					
+					//성공 했을 때 다시 목록 출력
+					list();
+				}
+			});
+		});
+		
+		//목록의 수정버튼 누르면 수정폼 나오게 하기
+		//향후에 생긴 이벤트로 on 이벤트
+		$(document).on("click","span.mod",function(){
+			
+			//수정 할 num을 속성에서 가져와야 함
+			var num=$(this).attr("num");
+			//alert(num);
+			
+			//폼의 unum에 num 넣어주기
+			$("#unum").val(num);
+			
+			$.ajax({
+				
+				type:"get",
+				url:"getdataproc.jsp",
+				dataType:"json",
+				data:{"num":num}, //num에 의한 하나의 데이터값을 띄워줌
+				success:function(res){
+					
+					//수정폼 태그 안에 넣어준다
+					$("#unum").val(res.num); //unum에는 res에서 넘어온 num에 넣어준다
+					$("#uwriter").val(res.writer);
+					$("#ucontent").val(res.content);
+					$("#uavata").val(res.avata);
+					
+					//해당 이미지에 select 클래스 추가하기
+					$("img.uavata").each(function(i,ele){
+						
+						if($(this).attr("src")==res.avata) //res의 avata에서 넘어온 속성과 현재 속성이 같다면
+							$(this).addClass("select"); //addclass 해주고
+							else
+								$(this).removeClass("select");
+					});
+					
+					//추가폼은 숨기고 수정폼은 나타내기
+					$("div.addform").hide();
+					$("div.updateform").show();
+					
+				}
+			});
+		});
+		
+		
 	});
 	
 	//사용자함수 list
@@ -85,6 +231,11 @@
 						s+="<table class='table'>"; 
 						s+="<tr height='100'><td>";
 						s+="<span class='writer'>작성자: "+elt.writer+"</span>";
+						
+						//num값 넘겨서 수정,삭제
+						s+="<span class='mod' num="+elt.num+"> 수정 </span>";
+						s+="<span class='del' num="+elt.num+"> 삭제 </span>";
+						
 						s+="<span class='writeday'>"+elt.writeday+"</span>";
 						s+="<br>";
 						s+="<pre>"+elt.content;
@@ -108,7 +259,7 @@
 	</div>
 	
 	<div class="memo addform">
-		<form id="addform">
+		<form id="addform" method="post">
 			<table class="table table-bordered">
 			<caption><b>메모추가</b></caption>
 				<tr>
@@ -132,7 +283,7 @@
 					<script type="text/javascript">
 					var tag="";
 					for(var i=1;i<=10;i++){
-						tag+="<img src='../avata/"+i+".png' width='50'>";
+						tag+="<img src='../avata/"+i+".png' width='50' class='avata'>";
 						
 						if(i==5)
 							tag+="<br>";
@@ -150,7 +301,52 @@
 		</form>
 	</div>
 	
-	<div class="memo updateform">update</div>
+	<!-- update 수정 form -->
+	<div class="memo updateform">
+	<form id="updateform" method="post"> <!-- form에 id 값 주면 안에 있는 값들 한 번에 읽기 가능 -->
+	<!-- hidden으로 num 넘기기 -->
+	<input type="hidden" id="unum" name="unum"> <!-- 보통 업데이트할때 구분을 짓기 위해서 기존 id,name에 u 추가해서 붙여줌 -->
+			<table class="table table-bordered">
+			<caption><b>메모수정</b></caption>
+				<tr>
+				<th width="100" bgcolor="lightgray">작성자</th>
+					<td>
+					<input type="text" class="form-control" name="uwriter" id="uwriter" style="width: 120px">
+					</td>
+				</tr>
+				
+				<tr>
+				<th width="100" bgcolor="lightgray">메모</th>
+					<td>
+					<textarea style="width: 300px; height: 100px" name="ucontent" id="ucontent" class="form-control"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+				<th width="100" bgcolor="lightgray">아바타</th>
+					<td>
+					<input type="hidden" name="uavata" id="uavata">
+					<script type="text/javascript">
+					var tag="";
+					for(var i=1;i<=10;i++){
+						tag+="<img src='../avata/"+i+".png' width='50' class='uavata'>";
+						
+						if(i==5)
+							tag+="<br>";
+							
+					}document.write(tag);
+					</script>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center" style="cursor: pointer;" class="dbupdate">DB수정</td>
+				</tr>
+			
+			</table>
+		</form>
+	</div>
+	
 	<div class="memo list">list</div>
 	
 	
