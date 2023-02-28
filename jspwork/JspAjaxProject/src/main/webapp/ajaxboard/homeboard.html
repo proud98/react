@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Edu+VIC+WA+NT+Beginner:wght@600&family=Gamja+Flower&family=Single+Day&family=Jua&family=Nanum+Pen+Script&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+
+	<style type="text/css">
+	
+		div.list,div.detail,div.updateform{
+			position: absolute;
+			left: 100px;
+			top: 100px;
+		}
+		
+		div.writeform{
+			position: absolute;
+			left: 900px;
+			top: 100px;
+			font-size: 13pt;
+			font-family: 'Single Day';
+		}
+		
+		span.detail{
+			cursor: pointer;
+		}
+		
+		div.detail button{
+			width: 80px;
+			margin-right: 10px;
+		}
+	</style>
+
+	<script type="text/javascript">
+		$(function(){
+			
+			list();
+			
+			//입력폼 처음에 안보이게 
+			$("div.writeform").hide();
+			
+			//updateform도 처음엔 안보이게 
+			$("div.updateform").hide();
+			
+			//글쓰기 버튼 누르면 입력폼 나오게 하기
+			$("#btnwrite").click(function(){
+				$("div.writeform").toggle();
+			});
+			
+			//db추가 
+			$("#btnadd").click(function(){
+				
+				var writer=$("#writer").val();
+				var subject=$("#subject").val();
+				var avata=$("#avata").val();
+				var content=$("#content").val();
+				
+				//각각 읽을 때 두 가지 방법으로 읽을 수 있음
+				//방법1: &으로 묶어서 data로 정의하기
+				//var data="writer="+writer+"&subject="+subject+"&content="+content+"&avata="+avata;
+				
+				//console.log(writer,subject,content,avata);
+				
+				$.ajax({
+					
+					typs:"post",
+					dataType:"html",
+					url:"insertboardproc.jsp",
+					data:{"writer":writer,"subject":subject,"content":content,"avata":avata},//방법2: 각각 {}안에다가 
+					success:function(){
+						
+						//insert 성공 했을 때 
+						$("#writer").val("");
+						$("#subject").val("");
+						$("#content").val("");
+						
+						//alert("success");
+						//다시 출력
+						list();
+						
+						//리스트는 다시 나오면서 입력폼 사라지게 하기
+						$("div.writeform").hide();
+					}
+				});
+				
+			});
+			
+			//제목 클릭시 내용보기
+			$(document).on("click","span.detail",function(){
+				
+				//span 태그에 넣어둔 num
+				var num=$(this).attr("num");
+				//alert(num); num넘어오는거 꼭 확인하고 넘어가기
+				
+				$.ajax({
+					
+					type:"get",
+					dataType:"json",
+					data:{"num":num},
+					url:"detailboard.jsp",
+					success:function(res){
+					
+						var s="<table class='table table-bordered' style='width:500px;'>";
+						s+="<caption><b>내용확인</b></caption>";
+						s+="<tr bgcolor='lightyellow'>";
+						s+="<td><b style='font-size:2em;'>"+res.subject+"</b><br>";
+						s+="<span>"+res.writer+"</span>";
+						s+="<span style='float:right; color:gray;'>"+res.writeday+"</span></td></tr>";
+						
+						//avata, content 넣기
+						s+="<tr><td>"; //두번째 tr,td 열어서 
+						s+="<img src='"+res.avata+"' width='40' align='left'><br>";
+						s+="<pre style='background:white; border:0px;'>"+res.content+"</pre></td></tr>";
+						
+						//버튼
+						//세번째 tr,td 열어서
+						s+="<tr><td align='right' num='"+res.num+"'>"; //td에 num심어두기
+						s+="<button type:'button' class='btn btn-info btnlist'>목록</button>"; //id값 따로 안주고 btnlist 라고 클래스 이름 추가해줌 .btnlist
+						s+="<button type:'button' class='btn btn-success btnmod'>수정</button>"; //.btnmod
+						s+="<button type:'button' class='btn btn-warning btndel'>삭제</button>"; //.btndel
+						//수정,삭제의 부모는 td
+						s+="</td></tr>";
+						
+
+						//테이블 닫아주기
+						s+="</table>";
+						$("div.detail").html(s);
+						
+						//기존 list는 숨기기 (안숨겨놓으면 list랑 detail 겹쳐져 나옴)
+						$("#board").hide();
+						
+						//detail 페이지 보이게 
+						$("div.detail").show();
+						
+					}
+					
+				});
+			});
+			
+			//목록보기 (on이벤트 사용)
+			$(document).on("click",".btnlist",function(){
+				//목록 버튼을 누르면
+				$("div.detail").hide(); //디테일은 숨기고
+				$("#board").show(); //목록은 보이게
+			});
+			
+			//삭제
+			$(document).on("click",".btndel",function(){
+				
+				//부모태그 td로부터 num값 가져오기
+				var num=$(this).parent().attr("num"); //this는 btndel, parent는 td
+				//alert(num);
+				
+				$.ajax({
+					
+					type:"get",
+					dataType:"html",
+					url:"deleteboard.jsp",
+					data:{"num":num},
+					success:function(){
+						
+						list();
+						
+						//내용 안보이게
+						$("div.detail").hide();
+						//목록은 보이게
+						$("#board").show();
+					}
+				});
+			});
+			
+			//수정버튼
+			$(document).on("click",".btnmod",function(){
+				
+				var num=$(this).parent().attr("num"); //this는 btnmod, parent는 td
+				//alert(num);
+				
+				//내용보기에서 사용하던 detailboard.jsp로부터 json 얻어서 수정폼 보이게 하기
+				$.ajax({
+					
+					type:"get",
+					dataType:"json",
+					url:"detailboard.jsp",
+					data:{"num":num},
+					success:function(res){
+						
+						//수정폼에 데이터 넣어주기
+						$("#unum").val(res.num); //unum에다 res에서 넘어온 num을 넣어주기
+						$("#uwriter").val(res.writer);
+						$("#usubject").val(res.subject);
+						$("#ucontent").val(res.content);
+						$("#uavata").val(res.avata);
+						
+						//내용보기 안보이게
+						$("div.detail").hide();
+						//수정폼은 보이게
+						$("div.updateform").show();
+					}
+				});
+			});
+			
+		});
+		
+		//사용자 함수 list
+		function list(){
+			
+			$.ajax({
+				
+				type:"get",
+				dataType:"json",
+				url:"listproc.jsp",
+				success:function(data){
+					//alert(data.legth);
+					
+					//제목
+					var s="<table class='table table-bordered' style='width:700px;'>";
+					s+="<caption><b>Ajax게시판</b></caption>";
+					s+="<tr bgcolor='#ccf'>";
+					s+="<th width='60'>번호</th>";
+					s+="<th width='360'>제목</th>";
+					s+="<th width='120'>작성자</th>";
+					s+="<th width='160'>작성일</th>";
+					s+="</tr>";
+					
+					//저장 된 글이 없을 때
+					if(data.length==0){
+						s+="<tr>";
+						s+="<td colspan='4' align='center'>";
+						s+="<b>저장 된 글이 없습니디</b>";
+						s+="</td></tr>";
+					}else{
+						//데이터가 한 개 이상 있을 때 
+						$.each(data,function(i,item){
+							
+							s+="<tr>";
+							s+="<td align='center'>"+(i+1)+"</td>";
+							s+="<td>";
+							//subject에는 item으로 부터 넘어온 num값 심어두기
+							s+="<span num='"+item.num+"' class='detail'>"+item.subject+"</span>";
+							s+="</td>";
+							s+="<td>"+item.writer+"</td>";
+							s+="<td>"+item.writeday+"</td>";
+						});
+					}
+					
+					s+="</table>";
+					$("#board").html(s);
+				}
+			});
+		}
+	</script>
+
+</head>
+<body>
+	<div>
+		<button type="button" class="btn btn-info" id="btnwrite">글쓰기</button>
+		<div id="board">list</div>
+		<div class="detail">detail</div>
+	</div>
+	
+	<div class="writeform">
+		<form>
+			<table class="table table-bordered" style="width: 400px;">
+			<caption><b>게시글 추가</b></caption>
+			
+				<tr>
+				<th bgcolor="#fcc">작성자</th>
+					<td>
+					<input type="text" id="writer" style="width: 120px;" class="form-control">
+					</td>
+				</tr>
+				
+				<tr>
+				<th bgcolor="#fcc">제목</th>
+					<td>
+					<input type="text" id="subject" style="width: 220px;" class="form-control">
+					</td>
+				</tr>
+				
+				<tr>
+				<th bgcolor="#fcc">이미지</th>
+					<td>
+					<select id="avata" class="form-control">
+					<option value="../미니언/01.png">미니언1</option>
+					<option value="../미니언/02.png">미니언2</option>
+					<option value="../미니언/03.png">미니언3</option>
+					<option value="../미니언/04.png">미니언4</option>
+					<option value="../미니언/05.png">미니언5</option>
+					<option value="../미니언/06.png">미니언6</option>
+					</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+					<textarea style="width: 300px; height: 100px;" id="content" class="form-control"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+					<button type="button" class="btn btn-danger" id="btnadd">DB추가</button>
+					</td>
+				</tr>
+			
+			</table>
+		</form>
+	</div>
+	
+	<!-- insert폼 복사해서 수정폼으로 -->
+	<div class="updateform">
+		<form id="updatefrm">
+		<!-- num hidden으로 주기 -->
+		<input type="hidden" name="unum" id="unum">
+			<table class="table table-bordered" style="width: 400px;">
+			<caption><b>게시글 수정</b></caption>
+			
+				<tr>
+				<th bgcolor="#fcc">작성자</th>
+					<td>
+					<input type="text" id="uwriter" name="uwriter" style="width: 120px;" class="form-control">
+					</td>
+				</tr>
+				
+				<tr>
+				<th bgcolor="#fcc">제목</th>
+					<td>
+					<input type="text" id="usubject" name="usubject" style="width: 220px;" class="form-control">
+					</td>
+				</tr>
+				
+				<tr>
+				<th bgcolor="#fcc">이미지</th>
+					<td>
+					<select id="uavata" name="uavata" class="form-control">
+					<option value="../미니언/01.png">미니언1</option>
+					<option value="../미니언/02.png">미니언2</option>
+					<option value="../미니언/03.png">미니언3</option>
+					<option value="../미니언/04.png">미니언4</option>
+					<option value="../미니언/05.png">미니언5</option>
+					<option value="../미니언/06.png">미니언6</option>
+					</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+					<textarea style="width: 300px; height: 100px;" id="ucontent" name="ucontent" class="form-control"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="center">
+					<button type="button" class="btn btn-danger" id="btnupdate">DB수정</button>
+					</td>
+				</tr>
+			
+			</table>
+		</form>
+	</div>
+</body>
+</html>

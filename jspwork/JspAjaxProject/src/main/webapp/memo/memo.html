@@ -213,22 +213,25 @@
 		$("td.dbupdate").click(function(){
 			
 			var data=$("#updateform").serialize();
-			
+			//alert(data); 버튼 반응 확인
 			
 			$.ajax({
 				
 				type:"post",
-				dataType:"html",
+				dataType:"html", //return값 없을 때는 그냥 html
 				url:"updateproc.jsp",
 				data:data,
 				success:function(res){
 					
-					$("#uwriter").val(res.writer);
+					//수정 성공시 목록을 다시 출력
+					list();
+					
+					/* $("#uwriter").val(res.writer);
 					$("#ucontent").val(res.content);
 					$("#uavata").val(res.avata);
 					
-					list();
-					$("td.updateform").slideUp();
+					
+					$("td.updateform").slideUp(); */
 					
 				}
 				
