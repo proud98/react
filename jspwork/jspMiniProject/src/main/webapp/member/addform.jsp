@@ -15,6 +15,35 @@
 		$(function(){
 			
 			//id중복체크
+			$("#btncheck").click(function(){
+				
+				//id 읽기
+				var id=$("#id").val();
+				//alert(id);
+				
+				$.ajax({
+					
+					type:"get",
+					url:"member/idsearch.jsp",
+					dataType:"json",
+					data:{"id":id},
+					success:function(res){
+						//console.log(res.count);
+						
+						if(res.count==1){
+							//alert("이미 가입된 아이디 입니다");
+							$("span.idsuccess").text("가입불가");
+							$("#id").val('');
+							$("#id").focus();
+						}else{
+							//alert("가입 가능한 아이디 입니다");
+							$("span.idsuccess").text("가입가능");
+				
+						}
+						
+					}
+				});
+			});
 			
 			//이메일
 			$("#selEmail").change(function(){
@@ -54,8 +83,9 @@
 			<tr>
 			<th width="100" bgcolor="#aaa">아이디</th>
 				<td>
-				<input type="text" name="id" class="form-control" required="required" style="width: 120px;">
+				<input type="text" name="id" id="id" class="form-control" required="required" style="width: 120px;">
 				<button type="button" class="btn btn-danger" id="btncheck">중복체크</button>
+				<span class="idsuccess"></span>
 				</td>
 			</tr>
 			
