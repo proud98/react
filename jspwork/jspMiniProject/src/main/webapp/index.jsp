@@ -36,7 +36,7 @@
 	
 	div.info{
 	width: 180px;
-	height: 170px;
+	height: 150px;
 	font-size: 15pt;
 	top: 280px;
 	border: 1px solid gray;
