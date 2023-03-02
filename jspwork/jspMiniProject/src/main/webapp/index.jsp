@@ -29,7 +29,7 @@
 	div.menu{
 	width: 100%;
 	height: 80px;
-	font-size: 25px;
+	font-size: 25pt;
 	top: 140px;
 	text-align: center;
 	}

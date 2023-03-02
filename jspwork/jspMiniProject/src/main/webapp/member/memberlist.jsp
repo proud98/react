@@ -15,6 +15,17 @@
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 
 <title>Insert title here</title>
+	<style type="text/css">
+	th,td{
+	text-align: center;
+	}
+	</style>
+	
+	<script type="text/javascript">
+	$(function(){
+		
+	});
+	</script>
 </head>
 <body>
 	<%
@@ -41,7 +52,7 @@
 		//모든 list를 dto에 대입
 		//for문으로만 할 경우 dto 선언해야하는데 for each문의 경우 안해줘도 됨
 		for(MemberDto dto:list){%>
-			<tr>
+			<tr align="center">
 				<td><%=no++ %></td>
 				<td><%=dto.getName() %></td>
 				<td><%=dto.getId() %></td>
@@ -50,8 +61,7 @@
 				<td><%=dto.getEmail() %></td>
 				<td><%=sdf.format(dto.getGaipday()) %></td>
 				<td>
-				<button type="button" class="btn btn-default btn-xs">수정</button>
-				<button type="button" class="btn btn-default btn-xs">삭제</button>
+				<button type="button" id="btn" class="btn btn-default btn-xs" onclick="location.href='index.jsp?main=member/memberdelete.jsp'">삭제</button>
 				</td>
 			</tr>
 			

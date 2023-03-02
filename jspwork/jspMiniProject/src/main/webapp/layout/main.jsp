@@ -13,10 +13,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<img alt="" src="../미니언/01.png">
+	<img alt="" src="미니언/01.png">
 	<img alt="" src="미니언/02.png">
 	<img alt="" src="미니언/03.png">
 	<img alt="" src="미니언/04.png">
-	<h1>여기는 메인 이미지 배치</h1>
+	
 </body>
 </html>
