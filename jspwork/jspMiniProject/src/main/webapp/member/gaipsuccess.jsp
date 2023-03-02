@@ -30,8 +30,8 @@
 		<img alt="" src="미니언/12.png"><br>
 		<b><%=name %>님의 회원가입을 축하합니다</b>
 		<br><br>
-		<button type="button" class="btn btn-default" onclick="location.href=''">로그인</button>
-		<button type="button" class="btn btn-default" onclick="location.href=''">Home</button>
+		<button type="button" class="btn btn-default" onclick="location.href='index.jsp?main=login/loginmain.jsp'">로그인</button>
+		<button type="button" class="btn btn-default" onclick="location.href='index.jsp'">Home</button>
 	</div>
 </body>
 </html>

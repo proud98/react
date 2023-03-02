@@ -50,7 +50,7 @@
 	height: 800px;
 	font: 12pt;
 	top: 280px;
-	left: 400px;
+	left: 300px;
 	padding-left: 100px;
 	}
 	</style>
