@@ -61,7 +61,7 @@
 				<td><%=dto.getEmail() %></td>
 				<td><%=sdf.format(dto.getGaipday()) %></td>
 				<td>
-				<button type="button" id="btn" class="btn btn-default btn-xs" onclick="location.href='index.jsp?main=member/memberdelete.jsp'">삭제</button>
+				<button type="button" id="btn" class="btn btn-default btn-xs" onclick="location.href='index.jsp?main=member/memberdelete.jsp?num=<%=dto.getNum()%>'">삭제</button>
 				</td>
 			</tr>
 			
