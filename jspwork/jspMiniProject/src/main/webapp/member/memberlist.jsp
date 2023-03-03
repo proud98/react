@@ -22,9 +22,13 @@
 	</style>
 	
 	<script type="text/javascript">
-	$(function(){
+	function delfunc(num){
 		
-	});
+		var yes=confirm("회원 삭제 하시겠습니까?");
+		
+		if(yes)
+			location.href='member/memberdelete.jsp?num='+num;
+	}
 	</script>
 </head>
 <body>
@@ -38,7 +42,7 @@
 	
 	<table class="table table-bordered" style="width: 900px;">
 	<caption><b>전체 회원 목록</b></caption>
-		<tr bgcolor="#fff0f5">
+		<tr bgcolor="#B4COD7">
 		<th width="60">번호</th>
 		<th width="100">회원명</th>
 		<th width="100">아이디</th>
@@ -61,12 +65,10 @@
 				<td><%=dto.getEmail() %></td>
 				<td><%=sdf.format(dto.getGaipday()) %></td>
 				<td>
-				<button type="button" id="btn" class="btn btn-default btn-xs" onclick="location.href='index.jsp?main=member/memberdelete.jsp?num=<%=dto.getNum()%>'">삭제</button>
+				<button type="button" id="btn" class="btn btn-default btn-xs" onclick="delfunc('<%=dto.getNum()%>')">삭제</button>
 				</td>
 			</tr>
-			
-			
-			
+
 		<%}
 		%>
 	

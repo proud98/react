@@ -4,18 +4,14 @@
     pageEncoding="utf-8"%>
 	
 	<%
-
-    //dao 선언
-    MemberDao dao=new MemberDao();
-    
     //num 읽기
     String num=request.getParameter("num");
+    
+    //dao 선언
+    MemberDao dao=new MemberDao();
     
     //delete메서드 호출
     dao.deleteMember(num);
     
-    
     response.sendRedirect("../index.jsp?main=member/memberlist.jsp");
-
-    
     %>

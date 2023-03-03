@@ -81,16 +81,16 @@
 		<caption><b>회원가입</b></caption>
 		
 			<tr>
-			<th width="100" bgcolor="#fff0f5">아이디</th>
+			<th width="100" bgcolor="#B4COD7">아이디</th>
 				<td>
 				<input type="text" name="id" id="id" class="form-control" required="required" style="width: 120px;">
-				<button type="button" class="btn btn-danger" id="btncheck">중복체크</button>
+				<button type="button" class="btn btn-default" id="btncheck">중복체크</button>
 				<span class="idsuccess"></span>
 				</td>
 			</tr>
 			
 			<tr>
-			<th width="100" bgcolor="#fff0f5">비밀번호</th>
+			<th width="100" bgcolor="#B4COD7">비밀번호</th>
 				<td>
 				<input type="password" name="pass" class="form-control" required="required" style="width: 120px;" placeholder="비밀번호 입력">
 				<input type="password" name="pass2" class="form-control" required="required" style="width: 120px;" placeholder="비밀번호 확인">
@@ -98,30 +98,30 @@
 			</tr>
 			
 			<tr>
-			<th width="100" bgcolor="#fff0f5">이름</th>
+			<th width="100" bgcolor="#B4COD7">이름</th>
 				<td>
 				<input type="text" name="name" class="form-control" required="required" style="width: 120px;">
 				</td>
 			</tr>
 			
 			<tr>
-			<th width="100" bgcolor="#fff0f5">핸드폰</th>
+			<th width="100" bgcolor="#B4COD7">핸드폰</th>
 				<td>
 				<input type="text" name="hp" class="form-control" required="required" style="width: 200px;">
 				</td>
 			</tr>
 			
 			<tr>
-			<th width="100" bgcolor="#fff0f5">주소</th>
+			<th width="100" bgcolor="#B4COD7">주소</th>
 				<td>
 				<input type="text" name="addr" class="form-control" required="required" style="width: 400px;">
 				</td>
 			</tr>
 			
 			<tr>
-			<th width="100" bgcolor="#fff0f5">이메일</th>
+			<th width="100" bgcolor="#B4COD7">이메일</th>
 				<td>
-				<input type="text" name="email1" id="email" class="form-control" required="required" style="width: 120px;">
+				<input type="text" name="email" id="email" class="form-control" required="required" style="width: 120px;">
 				<b>@</b>
 				<input type="text" name="email2" id="email2" class="form-control" required="required" style="width: 120px;">
 				

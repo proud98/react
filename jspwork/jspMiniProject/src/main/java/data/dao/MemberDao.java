@@ -168,6 +168,36 @@ public class MemberDao {
 			db.dbClose(pstmt, conn);
 		}
 	 }
+	 
+	 //아이디와 비번체크
+	 public boolean isIdPassCheck(String id,String pass) {
+		 
+		 boolean b=false;
+		 
+		 Connection conn=db.getConnection();
+		 PreparedStatement pstmt=null;
+		 ResultSet rs=null;
+		 
+		 String sql="select * from member where id=? and pass=?";
+		 
+		 try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pass);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()){
+				b=true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(rs, pstmt, conn);
+		}
+		 
+		 return b;
+	 }
 
 
 }

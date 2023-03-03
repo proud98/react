@@ -1,3 +1,4 @@
+<%@page import="data.dao.GuestDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -13,17 +14,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
 	<%
-	//세션에 저장된 loginok를 읽는다 
-	String loginok=(String)session.getAttribute("loginok");
+	String num=request.getParameter("num");
+	String currentPage=request.getParameter("currentPage");
 	
-	//if 로그아웃 상태면 로그인폼으로 else 로그인 상태면 로그아웃폼으로 
-	if(loginok==null){%>
-		<jsp:include page="loginform.jsp"/>
-	<%}else{%>
-		<jsp:include page="logoutform.jsp"/>
-	<%}
+	GuestDao dao=new GuestDao();
 	
+	dao.deleteGuest(num);
+	
+	response.sendRedirect("../index.jsp?main=guest/guestlist.jsp?currentPage="+currentPage);
+	 
 	%>
 </body>
 </html>

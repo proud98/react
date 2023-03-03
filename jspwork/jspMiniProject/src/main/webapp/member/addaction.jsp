@@ -15,7 +15,7 @@
     String pass=request.getParameter("pass");
     String hp=request.getParameter("hp");
     String addr=request.getParameter("addr");
-    String email=request.getParameter("email")+request.getParameter("email2");
+    String email=request.getParameter("email")+"@"+request.getParameter("email2");
     
     dto.setName(name);
     dto.setId(id);

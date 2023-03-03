@@ -20,6 +20,12 @@
 	<%
 	//프로젝트 경로
 	String root=request.getContextPath();
+	
+	/*관리자 로그인*/
+	//아이디
+	String myid=(String)session.getAttribute("myid");
+	//로그인상태
+	String loginok=(String)session.getAttribute("loginok");
 	%>
 </head>
 <body>
@@ -42,9 +48,15 @@
 					<li class="parent">
 						<a href="#">Member</a>
 						<ul class="sub-menu">
-							<li><a href="<%=root%>/index.jsp?main=login/loginmain.jsp"><i class="icon-wrench"></i>로그인</a></li>
 							<li><a href="<%=root%>/index.jsp?main=member/addform.jsp"><i class="icon-credit-card"></i>회원가입</a></li>
-							<li><a href="<%=root%>/index.jsp?main=member/memberlist.jsp"><i class="icon-gift"></i>회원목록</a></li>
+							<li><a href="<%=root%>/index.jsp?main=member/myinfo.jsp"><i class="icon-credit-card"></i>회원정보</a></li>
+							<%
+							//로그인중이고 그 아이디가 관리자 아이디여야지 회원목록이 보이게 하기
+							if(loginok!=null && myid.equals("rang")){%>
+								<li><a href="<%=root%>/index.jsp?main=member/memberlist.jsp"><i class="icon-gift"></i>회원목록</a></li>
+							<%}
+							%>
+
 						</ul>
 					</li>
 					<li><a href="<%=root%>/index.jsp?main=guest/guestlist.jsp">방명록</a></li>
