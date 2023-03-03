@@ -24,7 +24,6 @@
 	dao.deleteGuest(num);
 	
 	response.sendRedirect("../index.jsp?main=guest/guestlist.jsp?currentPage="+currentPage);
-	 
 	%>
 </body>
 </html>

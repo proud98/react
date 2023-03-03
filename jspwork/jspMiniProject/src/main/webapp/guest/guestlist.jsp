@@ -113,7 +113,7 @@
 					if(loginok!=null && dto.getMyid().equals(myid)){%>
 						
 						&nbsp;&nbsp;&nbsp;
-						<a href="" style="color: black;">수정</a>
+						<a href="index.jsp?main=guest/update.jsp?num=<%=dto.getNum()%>&currentPage=<%=currentPage %>" style="color: black;">수정</a>
 						<a>|</a>
 						<a href="guest/delete.jsp?num=<%=dto.getNum() %>&currentPage=<%=currentPage %>" style="color: black;">삭제</a>
 						<!-- num값을 넘기면서 &currentPage=으로 currentPage(현제페이지값)도 같이 넘기기 -->
