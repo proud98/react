@@ -28,9 +28,12 @@
 		%>
 		
 		<br><br>
-		<b><%=name %>님 안녕하세요</b>
+		<b style="font-size: 20pt;"><%=name %>님 안녕하세요</b>
 		<br><br>
+		
+		<!-- 
 		<button type="button" class="btn btn-default" style="width: 120px;" onclick="location.href='login/logoutaction.jsp'">로그아웃</button>
+		 -->
 	
 	</div>
 </body>

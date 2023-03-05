@@ -1,3 +1,4 @@
+<%@page import="data.dao.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -13,11 +14,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div style="font-size: 12pt; line-height: 25px;">
-		<span class="glyphicon glyphicon-user"></span>&nbsp;쌍용교육센터<br>
-		<span class="glyphicon glyphicon-earphone"></span>&nbsp;02-1234-5678<br>
-		<span class="glyphicon glyphicon-map-marker"></span>&nbsp;서울시 강남구 테헤란로<br>
-		<span class="glyphicon glyphicon-envelope"></span>&nbsp;hello@gamil.com<br>
-	</div>
+	<%
+	String num=request.getParameter("num");
+	
+	//전체멤버 정보 가져오기
+	MemberDao dao=new MemberDao();
+	
+	dao.deleteInfo(num);
+	
+	//세션
+	session.removeAttribute("loginok");
+	session.removeAttribute("myid");
+	
+	response.sendRedirect("../index.jsp?main=login/loginmain.jsp");
+	%>
 </body>
 </html>

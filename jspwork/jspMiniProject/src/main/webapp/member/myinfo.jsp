@@ -26,7 +26,7 @@
 	String myid=(String)session.getAttribute("myid");
 	%>
 <body>
-	<table class="table table-bordered" style="width: 500px;">
+	<table class="table table-bordered" style="width: 500px; font-size: 12pt;">
 		<%
 	     for(MemberDto dto:list)
 	     {%>
@@ -43,8 +43,8 @@
 	    	    <%=dto.getEmail() %><br>
 	    	    <%=sdf.format(dto.getGaipday()) %><br>
 	    	    <div style="float: right;">
-	    	    	<button type="button" class="btn btn-default btn-xs" onclick="delfunc(<%=dto.getNum()%>)">수정</button>
-					<button type="button" class="btn btn-default btn-xs" onclick="delfunc(<%=dto.getNum()%>)">삭제</button>
+	    	    	<button type="button" class="btn btn-default btn-xs" onclick="location.href='index.jsp?main=member/myinfoupdate.jsp?num=<%=dto.getNum()%>'">수정</button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='member/myinfodelete.jsp?num=<%=dto.getNum()%>'">탈퇴</button>
 	    	     </div>
 	    	    </td>
 	    	 </tr>

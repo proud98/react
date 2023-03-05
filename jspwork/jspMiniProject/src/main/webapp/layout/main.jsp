@@ -9,14 +9,13 @@
         rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-
+	<style type="text/css">
+	
+	</style>
 <title>Insert title here</title>
 </head>
 <body>
-	<img alt="" src="미니언/01.png">
-	<img alt="" src="미니언/02.png">
-	<img alt="" src="미니언/03.png">
-	<img alt="" src="미니언/04.png">
-	
+	<img style="width: 800px;" alt="" src="image/메인사진2.jpg">
+
 </body>
 </html>
