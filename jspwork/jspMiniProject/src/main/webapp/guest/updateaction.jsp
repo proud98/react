@@ -27,23 +27,26 @@
 	String content=multi.getParameter("ucontent");
 	String photoname=multi.getFilesystemName("uphoto");
 	String num=multi.getParameter("num");
+	String currentPage=multi.getParameter("currentPage"); //페이비전호 읽기
+	
+
+	//dao선언
+	GuestDao dao=new GuestDao();
+	
+	//기존의 photo 가져오기
+	String gu_photoname=dao.getData(num).getPhotoname(); //num값의 따른 photoname을 가져와서 기존의 photoname을 가여와줌(그걸 gu_photoname이라고 지정)
 	
 	//dto에 저장
 	GuestDto dto=new GuestDto();
 	dto.setMyid(myid);
 	dto.setContent(content);
-	dto.setPhotoname(photoname);
+	dto.setPhotoname(photoname==null?gu_photoname:photoname); //사진 수정 안하면(null) 기존거 그대로넣고 null이 아니면 수정한 포토네임으로 
 	dto.setNum(num);
 	
-	
-	//dao선언
-	GuestDao dao=new GuestDao();
 	dao.updateGuest(dto);
 	
-	
 	//방명록 목록으로 이동
-	response.sendRedirect("../index.jsp?main=guest/guestlist.jsp");
-	
+	response.sendRedirect("../index.jsp?main=guest/guestlist.jsp?currentPage="+currentPage);	
 	}catch(Exception e){
 		System.out.println("업로드 오류"+e.getMessage());
 	}

@@ -43,19 +43,22 @@
 <body>
 	
 	<%
+	//num
 	String num=request.getParameter("num");
+	//현재페이지 읽기
+	String currentPage=request.getParameter("currentPage");
+	//db에서 dto 읽어오기
 	GuestDao dao=new GuestDao();
 	GuestDto dto=dao.getData(num); //num에 따른 각 데이터 dto에서 가져 올 것임
 	%>
 
 	<div>
-	<% //이미지 null인 경우는 사진 안뜨고 null이 아닐때만 뜨게하기
-	if(dto.getPhotoname()!=null){%>
-		<img src="save/<%=dto.getPhotoname() %>" id="showimg" style="position: absolute; left: 800px; top: 100px; max-width: 200px;">
-	<%}
-	%>
+		<!-- 이미지가 null이었으면 안뜨게 ""공란으로 해두고 null이 아니면 이미지 가져오기 -->
+		<img src="<%=dto.getPhotoname()==null?"":"save/"+dto.getPhotoname() %>" id="showimg" style="position: absolute; left: 800px; top: 100px; max-width: 200px;">
+	
 		<form action="guest/updateaction.jsp" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="num" value="<%=num %>">
+		<input type="hidden" name="currentPage" value="<%=currentPage %>">  <!-- 현재페이지도 hidden으로 넘겨주기 -->
 			<table style="width: 600px">
 			<caption>
 				<b style="font-size: 15pt;">방명록 수정</b><br><br>
