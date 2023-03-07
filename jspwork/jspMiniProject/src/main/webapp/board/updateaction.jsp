@@ -12,20 +12,19 @@
 	String writer=request.getParameter("writer");
 	String content=request.getParameter("content");
 	String subject=request.getParameter("subject");
-	
-	
+	String num=request.getParameter("num");
+	String currentPage=request.getParameter("currentPage");
 	
 	dto.setWriter(writer);
 	dto.setContent(content);
 	dto.setSubject(subject);
-	
+	dto.setNum(num);
 	
 	SmartDao dao=new SmartDao();
-	dao.insertSmart(dto);
+	dao.updateSmart(dto);
 	
-	//max-num값 얻기
-	int maxNum=dao.getMaxNum();
 	
-	response.sendRedirect("../index.jsp?main=board/detailview.jsp?num="+maxNum+"&currentPage=1");
+	
+	response.sendRedirect("../index.jsp?main=board/detailview.jsp?num="+num+"&currentPage="+currentPage);
 	//글쓰기 작성후 내글로 페이지 이동하고 목록버튼 누르면 햔재페이지 목록으로 얻기
 	%>

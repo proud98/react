@@ -66,6 +66,7 @@
 							<li><a href="#">Q&A</a></li>
 							<li><a href="#">업로드 게시판</a></li>
 							<li><a href="index.jsp?main=board/smartform.jsp">스마트 게시판</a></li>
+							<li><a href="index.jsp?main=board/boardlist.jsp">스마트 게시판 목록</a></li>
 						</ul>
 					</li>
 					<li><a href="#">Shop</a></li>
