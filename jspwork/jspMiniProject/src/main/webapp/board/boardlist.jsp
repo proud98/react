@@ -1,3 +1,4 @@
+<%@page import="data.dao.SmartAnswerDao"%>
 <%@page import="data.dto.SmartDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
@@ -110,6 +111,17 @@
    no=totalCount-(currentPage-1)*perPage;
    
    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   
+   
+   //스마트게시판 댓글에 관한 Dao처리
+   SmartAnswerDao adao=new SmartAnswerDao();
+   
+   for(SmartDto dto:list){
+	   
+	   //댓글 변수에 댓글 총 갯수를 넣기 
+	   int acount=adao.getAllAnswers(dto.getNum()).size();
+	   dto.setAnswerCount(acount); //SmartDto에 추가한 AnswerCount에 acount라고 수정해줌
+   }
    %>
 </head>
 	
@@ -146,7 +158,14 @@
    				</td>
    				<td>
    				<a href="index.jsp?main=board/detailview.jsp?num=<%=dto.getNum()%>&currentPage=<%=currentPage%>"><%=dto.getSubject() %></a>
+   				<%
+   				//댓글이 있을 경우 제목 옆에 갯수 나타내기
+   				if(dto.getAnswerCount()>0){%>
+   					<a href="index.jsp?main=board/detailview.jsp?num=<%=dto.getNum()%>&currentPage=<%=currentPage%>" style="color: red;">[<%=dto.getAnswerCount() %>]</a>
+   				<%}
+   				%>
    				</td>
+   				
    				<td align="center"><%=dto.getWriter() %></td>
    				<td><%=sdf.format(dto.getWriteday()) %></td>
    				<td><%=dto.getReadcount() %></td>

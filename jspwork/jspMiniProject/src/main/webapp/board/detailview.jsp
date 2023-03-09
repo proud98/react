@@ -13,10 +13,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+  <!--부트스트랩 사용시 모달창 같이 움직임이 있는 경우 bootstrap.min.js도 같이 복사해줘야함!!!! -->
+
 <title>Insert title here</title>
 <style type="text/css">
 	table{
 	font-size: 13pt;
+	
+	}
+	
+	div.alist{
+	margin-left: 20px;
+	}
+	
+	div.alist span.aday{
 	
 	}
 </style>
@@ -24,13 +35,15 @@
 	<script type="text/javascript">
 		$(function(){
 			
+			//댓글부분에 넣을 num을 호출(전역변수로 쓸 것)
+			var num=$("#num").val();
+			
 			//처음에 시작시 리스트 호출
+			list();
 
-			//insert
+			//댓글 insert
 			$("#btnanswer").click(function(){
-				
-				//댓글부분에 넣을 num을 호출
-				var num=$("#num").val();
+
 				var nickname=$("#nickname").val();
 				var content=$("#content").val();
 				
@@ -42,21 +55,121 @@
 		            data:{"num":num,"nickname":nickname,"content":content},
 		            success:function(res){
 		               
-		               list();
-		               
-		               
-		               $("#nickname").val("");
-		               $("#content").val("");
+		            	//기존 입력값 지우기
+		            	$("#nickname").val("");
+			        	$("#content").val("");
+			            
+			        	//리스트 호출
+		            	list();
+		             
 		            }
 		            
 		         });
 			});
+			
+			//댓글삭제 (댓글 입력으로 생기는 이벤트이므로 on이벤트 사용)
+			$(document).on("click",".adel",function(){
+				
+				var idx=$(this).attr("idx");
+				//alert(idx);
+				
+				$.ajax({
+					
+					type: "get",
+					dataType:"html",
+					url:"smartanswer/deleteanswer.jsp",
+					data:{"idx":idx},
+					success:function(res){
+						
+						location.reload();
+					}
+				});
+				
+			});
+			
+			//수정폼 모달로 띄우가
+			$(document).on("click",".amod",function(){
+				
+				idx=$(this).attr("idx"); //수정 할 때도 idx값 필요해서 var지워서 전역변수로 해주기
+				//alert(idx);
+				
+				
+				
+				$.ajax({
+					
+					type:"get",
+					url:"smartanswer/jsonupdateform.jsp",
+					dataType:"json",
+					data:{"idx":idx},
+					success:function(res){
+						
+						//성공 했으면 모달창에 입력한 수정내용(unickname,ucontent)을 댓글창에 들어가게 하기
+						$("#unickname").val(res.nickname);
+						$("#ucontent").val(res.content); //res를 통해 가져 ㅇ content
+						
+					}
+				});
+				
+				$("#myModal").modal();
+				
+			});
+			
+			//수정 역시 댓글 입력으로 생긴거라 onclick 이벤트로 하기
+			$(document).on("click","#btnupdate",function(){
+				
+				var nickname=$("#unickname").val();
+				var content=$("#ucontent").val();
+				
+				//alert(nickname+","+content);
+				
+				$.ajax({
+					
+					typs:"get",
+					url:"smartanswer/updateanswer.jsp",
+					dataType:"html",
+					data:{"idx":idx,"nickname":nickname,"content":content}, //insert와 다른건 idx로 하기
+					success:function(){
+						
+						list(); //성공 했을 땐 리스트 호출
+					}
+				});
+				
+			});
+			
 			
 			
 		});
 		
 		//list 사용자정의함수
 		function list(){
+			
+			console.log("list num="+$("#num").val());
+			
+			$.ajax({
+				
+				type:"get",
+				url:"smartanswer/listanswer.jsp",
+				dataType:"json",
+				data:{"num":$("#num").val()},//$("#num").val()을 num값으로 받아옴
+				success:function(res){
+					
+					//댓글 갯수 출력
+					$("b.acount>span").text(res.length);
+					
+					var s="";
+					
+					$.each(res,function(idx,item){
+						
+						s+="<div>"+item.nickname+":"+item.content;;
+						s+="<span class='aday'>"+item.writeday+"</span>";
+						s+="<button type='button' idx="+item.idx+" class='adel btn btn-default btn-xs'>삭제</button>";
+						s+="<button type='button' idx="+item.idx+" class='amod btn btn-default btn-xs'>수정</button>";
+						s+="</div>";
+					});
+					
+					$("div.alist").html(s);
+				}
+			});
 			
 		}
 		
@@ -101,7 +214,7 @@
 			<!-- 댓글 -->
      	 	<tr>
          		<td>
-	            <b class="acount">댓글 <span>0</span></b>
+	            <b class="acount">댓글&nbsp;<span style="color: red;">0</span></b>
 	            <div class="alist">댓글목록</div>
             
 	            <div class="aform form-inline">
@@ -138,5 +251,33 @@
 			
 		}
 	</script>
+	
+	  <!-- Modal -->
+	  <div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	      
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">댓글수정</h4>
+	        </div>
+	        
+	        <div class="modal-body">
+		        <b>닉네임: </b>
+		        <input type="text" id=unickname style="width: 100px;">
+		        <b>댓글: </b>
+		        <input type="text" id=ucontent style="width: 100px;">
+	        </div>
+	        
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal" id="btnupdate">수정</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	  </div>	
+	
 </body>
 </html>

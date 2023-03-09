@@ -69,7 +69,19 @@
 							<li><a href="index.jsp?main=board/boardlist.jsp">스마트 게시판 목록</a></li>
 						</ul>
 					</li>
-					<li><a href="#">Shop</a></li>
+					<li>
+					<a href="#">Shop</a>
+						<ul class="sub-menu">
+						<%
+							//관리자에게만 상품등록이 보이게하기
+							if(loginok!=null && myid.equals("rang")){%>
+								<li><a href="<%=root%>/index.jsp?main=shop/addform.jsp">상품등록</a></li>
+						<%}%>
+						<li><a href="index.jsp?main=shop/shoplist.jsp">상품목록</a></li>
+						
+						</ul>
+					</li>
+					
 				</ul>
 			</nav>
 			<div class="clear"></div>
