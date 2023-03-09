@@ -1,3 +1,4 @@
+<%@page import="data.dao.ShopDao"%>
 <%@page import="data.dao.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
@@ -25,12 +26,12 @@
 		//db에서 id에 해당하는 이름 얻기
 		MemberDao dao=new MemberDao();
 		String name=dao.getName(myid);
+		
 		%>
 		
 		<br><br>
 		<b style="font-size: 20pt;"><%=name %>님 안녕하세요</b>
 		<br><br>
-		
 		<!-- 
 		<button type="button" class="btn btn-default" style="width: 120px;" onclick="location.href='login/logoutaction.jsp'">로그아웃</button>
 		 -->

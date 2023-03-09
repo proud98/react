@@ -22,12 +22,26 @@
 	width: 200px;
 	height: 230px;
 	margin-bottom: 10px;
-	brder: 10x solid gray;
+	
 	}
+
 	</style>
 
 	<script type="text/javascript">
 		//$("#tabs").tabs();
+		
+		//a태그에 심어둔 godetail로 상품 클릭하면 detail페이지로 넘어가게
+		$(function(){
+			$("a.godetail").click(function(){
+				
+				var shopnum=$(this).attr("shopnum");
+				//alert(shopnum);
+				
+				//디테일 페이지로 이동
+				location.href="index.jsp?main=shop/detailpage.jsp?shopnum="+shopnum;
+			});
+		});
+
 	</script>
 </head>
 <body>
@@ -60,7 +74,7 @@
 <div class="tab-content">
 	 <div id="tabs-1"  class="tab-pane fade in active">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>전체상품</b></caption>
 	 		<tr>
 	 		<%
@@ -77,7 +91,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>
@@ -114,7 +128,7 @@
 	 
 	 <div id="tabs-2" class="tab-pane fade">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>미니언</b></caption>
 	 		<tr>
 	 		<%
@@ -133,7 +147,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>
@@ -171,7 +185,7 @@
 	 
 	 <div id="tabs-3" class="tab-pane fade">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>카카오</b></caption>
 	 		<tr>
 	 		<%
@@ -191,7 +205,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>
@@ -229,7 +243,7 @@
 	 
 	 <div id="tabs-4" class="tab-pane fade">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>기타</b></caption>
 	 		<tr>
 	 		<%
@@ -249,7 +263,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>
@@ -287,7 +301,7 @@
 	 
 	 <div id="tabs-5" class="tab-pane fade">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>기타2</b></caption>
 	 		<tr>
 	 		<%
@@ -307,7 +321,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>
@@ -345,7 +359,7 @@
 	 
 	 <div id="tabs-6" class="tab-pane fade">
 	 	<p>
-	 	<table>
+	 	<table class="table table-bordered">
 	 	<caption><b>기타3</b></caption>
 	 		<tr>
 	 		<%
@@ -365,7 +379,7 @@
 	 			int sale=(int)(Math.random()*11)+20; //중간 숫자에 1을 더해줌
 	 		%>
 	 			<td>
-	 			<a>
+	 			<a shopnum=<%=dto.getShopnum() %> style="cursor: pointer;" class="godetail">
 	 			<img src="shopsave/<%=photo %>" class="photo"><br>
 	 			<%=dto.getSangpum() %>
 	 			<b style="color: red; font-size: 1.3em;"><%=sale %>%</b>

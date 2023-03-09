@@ -7,7 +7,7 @@ public class CartDto {
 	private String idx;
 	private String shopnum;
 	private String num;
-	private int cnt;;
+	private int cnt;
 	private Timestamp cartday;
 	
 	public String getIdx() {

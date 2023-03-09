@@ -1,3 +1,4 @@
+<%@page import="data.dao.ShopDao"%>
 <%@page import="data.dao.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
@@ -16,6 +17,41 @@
 	//프로젝트 경로
 	String root=request.getContextPath();
 	%>
+	
+	<style type="text/css">
+	div.cart{
+	cursor: pointer;
+	}
+	
+	div.carticon{
+	float: right;
+	}
+	
+	div.count{
+	color: white;
+	width: 30px;
+	height: 30px;
+	float: right;
+	border-radius: 100px;
+	line-height: 30px;
+	text-align: center;
+	background: red;
+	}
+	</style>
+	
+	<script type="text/javascript">
+	//카트 누르면 마이카트로 이동
+	$(function(){
+		
+		$(".cart").click(function(){
+			
+			location.href="index.jsp?main=shop/mycart.jsp";
+		})
+		
+	});
+	
+	
+	</script>
 </head>
 <body>
 	<a href="<%=root%>" style="color: black;">
@@ -42,6 +78,19 @@
 			<button type="button" class="btn btn-default" style="width: 100px;" onclick="location.href='login/logoutaction.jsp'">Logout</button>
 		<%}
 		%>
+		
+		<!-- 장바구니 수량 -->
+		<div class="cart">
+		<%
+		//shopdao선언
+		ShopDao sdao=new ShopDao();
+		//카트갯수 얻어오기
+		int cartSize=sdao.getCartList(myid).size();
+		%>
+			
+			<span class="carticon glyphicon glyphicon-shopping-cart"></span>
+			<div class="count"><%=cartSize %></div>
+		</div>
 	</div>
 </body>
 </html>
