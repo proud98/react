@@ -76,10 +76,9 @@
 			<tr>
 			<th>su1증가</th>
 				<td>
-				 증가전 su1:<c:set value="${su1 }"></c:set>
-				 		<c:set var="su1" value="${su1+1 }"></c:set>
-				 
-				 증가 후 su1:${su1 }
+				    증가전 su1:${su1 }
+				    <c:set var="su1" value="${su1+1 }" />
+				    증가 후 su1:${su1 }
 				</td>
 			</tr>
 			

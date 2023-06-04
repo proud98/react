@@ -17,9 +17,9 @@
 </head>
 <body>
 <!--변수선언  -->
-<c:set value="지민" var="name"/>
-<c:set value="24" var="age"/>
-<c:set value="<%=new Date() %>" var="today"/>
+<c:set var="name" value="하랑" />
+<c:set var="age" value="24" />
+<c:set var="today" value="<%=new Date() %>" />
 
 <!-- 변수출력 -->
 <!-- c:out이 변수 출력이지만 생략가능 -->
